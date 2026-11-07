@@ -24,6 +24,7 @@
 // receiver settings. Needs no recording and no hardware.
 
 #include <QSignalSpy>
+#include <QAccessible>
 
 #include "gui_test_main.h"
 #include "radio_controller.h"
@@ -64,6 +65,9 @@ void UiNoReceiverTests::disablesScan()
     QVERIFY(app.isVisible("scanButton"));
     QVERIFY(!isEnabled("scanButton"));
     QVERIFY(app.isVisible("receiverSettingsButton"));
+    auto* accessible = QAccessible::queryAccessibleInterface(app.find("receiverSettingsButton"));
+    QVERIFY(accessible != nullptr);
+    QCOMPARE(accessible->text(QAccessible::Name), app.text("receiverSettingsButton"));
     QVERIFY(app.text("stationListEmptyText").contains("No receiver found"));
     UI_VERIFY_EMPTY(app.controlsWithoutAccessibleName(), "Controls without accessible name");
     app.screenshot("noreceiver-empty");

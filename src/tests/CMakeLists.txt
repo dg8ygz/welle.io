@@ -1,6 +1,6 @@
 # This file was generated with an AI assistant (Claude Code).
 
-find_package(Qt6 COMPONENTS Core Test REQUIRED)
+find_package(Qt6 COMPONENTS Core Test Network REQUIRED)
 
 set(CMAKE_AUTOMOC ON)
 
@@ -34,6 +34,26 @@ target_link_libraries(demod_compare PRIVATE welle_test_common)
 # "ctest -L unit" and "ctest -R rawfile" both work.
 
 # Unit tests, no test data needed
+add_executable(tst_dabaudio unit/tst_dabaudio.cpp)
+target_link_libraries(tst_dabaudio PRIVATE welle Qt6::Test)
+add_test(NAME unit.dabaudio COMMAND tst_dabaudio)
+set_tests_properties(unit.dabaudio PROPERTIES LABELS unit TIMEOUT 30)
+
+add_executable(tst_socket unit/tst_socket.cpp)
+target_link_libraries(tst_socket PRIVATE welle Qt6::Test Qt6::Network)
+add_test(NAME unit.socket COMMAND tst_socket)
+set_tests_properties(unit.socket PROPERTIES LABELS unit TIMEOUT 30)
+
+add_executable(tst_mot_header unit/tst_mot_header.cpp)
+target_link_libraries(tst_mot_header PRIVATE welle_test_common Qt6::Test)
+add_test(NAME unit.mot_header COMMAND tst_mot_header)
+set_tests_properties(unit.mot_header PROPERTIES LABELS unit TIMEOUT 30)
+
+add_executable(tst_ofdm_handoff unit/tst_ofdm_handoff.cpp)
+target_link_libraries(tst_ofdm_handoff PRIVATE welle_test_common Qt6::Test)
+add_test(NAME unit.ofdm_handoff COMMAND tst_ofdm_handoff)
+set_tests_properties(unit.ofdm_handoff PROPERTIES LABELS unit TIMEOUT 30)
+
 add_executable(tst_rawfile unit/tst_rawfile.cpp)
 target_link_libraries(tst_rawfile PRIVATE welle_test_common Qt6::Test)
 add_test(NAME unit.rawfile COMMAND tst_rawfile)
@@ -58,10 +78,23 @@ add_executable(tst_software_agc unit/tst_software_agc.cpp)
 target_link_libraries(tst_software_agc PRIVATE welle_test_common Qt6::Test)
 add_test(NAME unit.software_agc COMMAND tst_software_agc)
 
+if(SoapySDR_FOUND)
+    add_executable(tst_soapy_gain unit/tst_soapy_gain.cpp)
+    target_link_libraries(tst_soapy_gain PRIVATE welle_test_common Qt6::Test)
+    add_test(NAME unit.soapy_gain COMMAND tst_soapy_gain)
+    set_tests_properties(unit.soapy_gain PROPERTIES LABELS unit TIMEOUT 30)
+endif()
+
 add_executable(tst_rtl_tcp unit/tst_rtl_tcp.cpp)
 target_include_directories(tst_rtl_tcp PRIVATE ${CMAKE_SOURCE_DIR}/src)
 target_link_libraries(tst_rtl_tcp PRIVATE welle_test_common Qt6::Test)
 add_test(NAME unit.rtl_tcp COMMAND tst_rtl_tcp)
+
+add_executable(tst_rtl_tcp_flow unit/tst_rtl_tcp_flow.cpp)
+target_link_libraries(tst_rtl_tcp_flow PRIVATE welle_test_common Qt6::Test Qt6::Network)
+add_test(NAME unit.rtl_tcp_flow COMMAND tst_rtl_tcp_flow)
+set_tests_properties(unit.rtl_tcp_flow PROPERTIES LABELS "unit;slow" TIMEOUT 240)
+
 
 add_executable(tst_rational_resampler unit/tst_rational_resampler.cpp)
 target_link_libraries(tst_rational_resampler PRIVATE welle_test_common Qt6::Test)

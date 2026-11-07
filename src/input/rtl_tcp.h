@@ -63,6 +63,7 @@ public:
     int getFrequency(void) const;
     bool restart(void);
     bool is_ok(void);
+    bool isConnected(void) const override { return connected; }
     int32_t getSamples(DSPCOMPLEX* V, int32_t size);
     std::vector<DSPCOMPLEX> getSpectrumSamples(int size);
     int32_t getSamplesToRead(void);
@@ -83,6 +84,7 @@ public:
     RadioControllerInterface& radioController;
 
 private:
+    friend class RtlTcpFlowTests;
     void stop(void);
     void agcTimer(void);
     void receiveData(void);
@@ -92,6 +94,9 @@ private:
     void joinThreads(void);
 
     std::mutex mutex;
+    // Serialize buffer access with reset; never held during socket IO/sleep.
+    std::mutex bufferTransferMutex;
+    uint64_t bufferGeneration = 0;
     Socket sock;
     std::thread receiveThread;
     std::atomic<bool> agcRunning{false};
@@ -119,8 +124,6 @@ private:
 
     bool firstData = true;
     bool firstFilledNetworkBuffer = false;
-    int64_t oldTime_us = 0;
-    int64_t nextStop_us = 0;
     dongle_info_t dongleInfo;
 
     // Gain values for the different tuners
