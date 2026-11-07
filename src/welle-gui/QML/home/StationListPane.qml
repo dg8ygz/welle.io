@@ -227,6 +227,7 @@ Pane {
                 flat: true
                 icon.name: "antenna"
                 text: qsTr("Receiver settings")
+                Accessible.name: text
                 font.capitalization: Font.MixedCase
                 onClicked: root.openReceiverSettings()
             }
