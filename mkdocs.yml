@@ -127,6 +127,7 @@ nav:
   - Development:
       - development/index.md
       - Building: development/building.md
+      - Receiver integration test branch: development/receiver-integration.md
       - Translating: development/translating-welle-io.md
       - Code conventions: development/code-conventions.md
       - Website: development/website.md
