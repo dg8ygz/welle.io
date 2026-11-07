@@ -40,6 +40,9 @@ ToolBar {
     signal back
 
     Material.background: ApplicationWindow.window ? ApplicationWindow.window.Material.backgroundColor : "transparent"
+    // Match the window foreground as well as its surface. ToolBar's default
+    // light-theme foreground assumes a coloured (rather than light) surface.
+    Material.foreground: ApplicationWindow.window ? ApplicationWindow.window.Material.foreground : Material.primaryTextColor
     Material.elevation: 0
 
     // Divider to the content
