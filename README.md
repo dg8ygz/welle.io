@@ -1,8 +1,25 @@
-# welle.io — dg8ygz fork
+# welle.io — experimental dg8ygz fork
 
 DAB/DAB+ software radio with a Qt interface and a command-line receiver,
 including a web interface for service information and audio streaming.
 Based on [AlbrechtL/welle.io](https://github.com/AlbrechtL/welle.io).
+
+## Experimental development with AI assistance
+
+This fork is a workspace for investigating reception and decoding problems
+and trying out possible fixes. AI tools, including Codex, assist with log and
+code analysis, forming hypotheses, implementing changes and preparing tests.
+
+Changes are evaluated with regression tests and real receiver setups where
+available. An AI-generated explanation or patch is a starting point for
+investigation, not proof that a problem is understood or solved. Test results
+apply to the documented hardware, input streams and scenarios; experimental
+changes may introduce regressions.
+
+The development branches contain work in progress and proposed fixes. They
+are not official welle.io releases, and publication here does not imply
+upstream review or acceptance. See the branch-specific diffs and validation
+notes before using a change.
 
 ## Fork branches
 
