@@ -11,7 +11,7 @@ RUN cmake -S . -B /tmp/welle-build \
       -DCMAKE_BUILD_TYPE=Release -DBUILD_WELLE_IO=OFF \
       -DRTLSDR=ON -DAIRSPY=ON -DSOAPYSDR=ON \
     && cmake --build /tmp/welle-build --parallel 2 \
-    && /tmp/welle-build/welle-cli -h \
+    && /tmp/welle-build/welle-cli -v \
     && mkdir /out \
     && cp /tmp/welle-build/welle-cli /out/ \
     && ldd /tmp/welle-build/welle-cli > /out/runtime-dependencies.txt
