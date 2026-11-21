@@ -364,10 +364,10 @@ jobs:
 
             mkdir -p qmake-build
             cd qmake-build
-            ${QT_INSTALL_BINDIR}/qmake \
+            bash ../.github/scripts/ci-command.sh "${QT_INSTALL_BINDIR}/qmake" \
               ../welle.io.pro
 
-            make V=1 apk
+            bash ../.github/scripts/ci-command.sh make V=1 apk
             cd ..
 
             ls -al qmake-build/src/welle-gui/android-build/build/outputs/apk/debug/android-build-debug.apk
