@@ -366,12 +366,19 @@ jobs:
             set -x
             echo $PWD
 
+            # Match the CMake build's SDK/NDK. Runner defaults may contain
+            # newer Android platforms unsupported by Qt 6.5's Gradle tooling.
+            export ANDROID_SDK_ROOT="$MY_ANDROID_SDK_ROOT"
+            export ANDROID_HOME="$MY_ANDROID_SDK_ROOT"
+            export ANDROID_NDK_ROOT="$MY_ANDROID_NDK_ROOT"
+
             mkdir -p qmake-build
             cd qmake-build
             bash ../.github/scripts/ci-command.sh "${QT_INSTALL_BINDIR}/qmake" \
-              ../welle.io.pro
+              ../welle.io.pro \
+              "ANDROID_SDK_BUILD_TOOLS_REVISION=$ANDROID_BUILD_TOOLS_VER"
 
-            bash ../.github/scripts/ci-command.sh make V=1 apk
+            bash ../.github/scripts/ci-command.sh make -j2 V=1 apk
             cd ..
 
             ls -al qmake-build/src/welle-gui/android-build/build/outputs/apk/debug/android-build-debug.apk
