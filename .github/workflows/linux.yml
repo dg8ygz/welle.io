@@ -22,6 +22,7 @@ jobs:
     name: Build with Qt
     runs-on: ${{ matrix.os }}
     strategy:
+        fail-fast: false
         matrix:
             os: [ubuntu-24.04, ubuntu-24.04-arm]
 
@@ -64,13 +65,13 @@ jobs:
             sed -i 's/version="0.0.0"/'version=\""$APPDATA_DATE_VERSION"\"'/g' io.welle.welle-gui.appdata.xml
 
             # Check if file "io.welle.welle-gui.appdata.xml" is valid
-            flatpak run --command=flatpak-builder-lint org.flatpak.Builder appstream io.welle.welle-gui.appdata.xml
+            bash .github/scripts/ci-command.sh flatpak run --command=flatpak-builder-lint org.flatpak.Builder appstream io.welle.welle-gui.appdata.xml
 
       - name: Build
         id: build
         run: |
             # Create welle-gui Flatpak
-            flatpak-builder --force-clean --sandbox --user --install-deps-from=flathub --repo=repo --install builddir io.welle.welle-gui.yml
+            bash .github/scripts/ci-command.sh flatpak-builder --force-clean --sandbox --user --install-deps-from=flathub --repo=repo --install builddir io.welle.welle-gui.yml
             flatpak build-bundle repo welle-io.flatpak io.welle.welle-gui --runtime-repo=https://flathub.org/repo/flathub.flatpakrepo
             # Detect CPU
             ARCH=$(uname -m)

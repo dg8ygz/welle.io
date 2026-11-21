@@ -45,13 +45,13 @@ jobs:
         id: build
         run: |
           mkdir build/
-          docker build -f Dockerfile.raspberrypi --platform linux/arm/v6 --target export -t build --output . .
+          bash .github/scripts/ci-command.sh docker build -f Dockerfile.raspberrypi --platform linux/arm/v6 --target export -t build --output . .
           ls -lah
 
-      - name: Archive artifacts (welle.io build dir)
-        if: always() && steps.build.outcome == 'failure'
+      - name: Archive artifacts (welle-cli ARMv6)
+        if: always() && steps.build.outcome == 'success'
         uses: actions/upload-artifact@v4
         with:
-          name: welle.io build dir
+          name: welle-cli Raspberry Pi ARMv6
           path: build/*
           if-no-files-found: error
