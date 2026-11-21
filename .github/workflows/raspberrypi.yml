@@ -6,6 +6,16 @@ on:
       - master
       - next
       - 'next*'
+    paths-ignore:
+      - '**/*.md'
+      - 'docs/**'
+      - 'AUTHORS'
+      - 'THANKS'
+      - 'COPYING'
+  workflow_dispatch:
+
+permissions:
+  contents: read
 
 jobs:
   buildx:

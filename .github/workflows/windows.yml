@@ -6,6 +6,16 @@ on:
       - master
       - next
       - 'next*'
+    paths-ignore:
+      - '**/*.md'
+      - 'docs/**'
+      - 'AUTHORS'
+      - 'THANKS'
+      - 'COPYING'
+  workflow_dispatch:
+
+permissions:
+  contents: read
 
 jobs:
   qtbuild:
@@ -92,6 +102,7 @@ jobs:
 
       - name: Sign installer with self-signed certificate with SignPath
         id: signing_installer
+        if: github.repository == 'AlbrechtL/welle.io'
         uses: signpath/github-action-submit-signing-request@v1
         with:
           api-token: '${{ secrets.SIGNPATH_API_TOKEN }}'
@@ -104,6 +115,7 @@ jobs:
 
       - name: Archive artifacts (welle.io Windows installer signed)
         id: upload_artifact_self_signed
+        if: steps.signing_installer.outcome == 'success'
         uses: actions/upload-artifact@v4
         with:
           name: welle.io Windows installer self-signed
@@ -111,6 +123,7 @@ jobs:
           if-no-files-found: error
 
       - name: Upload to nightly server
+        if: github.repository == 'AlbrechtL/welle.io'
         uses: dennisameling/ftp-upload-action@v1
         with:
           server: a2f24.netcup.net # welle-io-nightlies.albrechtloh.de is redirected to here
@@ -121,6 +134,7 @@ jobs:
 
       - name: Production sign installer with SignPath
         id: production_signing_installer
+        if: github.repository == 'AlbrechtL/welle.io'
         uses: signpath/github-action-submit-signing-request@v1
 
         # Production signing needs a manual step in SignPath within 5 minutes.

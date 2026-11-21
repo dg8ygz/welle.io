@@ -32,6 +32,16 @@ on:
       - master
       - next
       - 'next*'
+    paths-ignore:
+      - '**/*.md'
+      - 'docs/**'
+      - 'AUTHORS'
+      - 'THANKS'
+      - 'COPYING'
+  workflow_dispatch:
+
+permissions:
+  contents: read
 
 jobs:
   android:
@@ -337,7 +347,7 @@ jobs:
             find publish/
 
       - name: Upload to nightly server
-        if: always() && steps.build_apk.outcome == 'success'
+        if: always() && github.repository == 'AlbrechtL/welle.io' && steps.build_apk.outcome == 'success'
         uses: dennisameling/ftp-upload-action@v1
         with:
           server: a2f24.netcup.net # welle-io-nightlies.albrechtloh.de is redirected to here

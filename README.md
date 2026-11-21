@@ -53,6 +53,8 @@ Open `http://localhost:7979/`. Select a DAB channel available at your location;
 
 ## Development
 
+[CI behavior and known build failures](docs/ci.md).
+
 Fork-specific issues: [dg8ygz/welle.io](https://github.com/dg8ygz/welle.io/issues).
 Upstream development: [AlbrechtL/welle.io](https://github.com/AlbrechtL/welle.io).
 For profiling, build with `-DPROFILING=ON`; output includes CSV files and
